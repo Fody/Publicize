@@ -2,7 +2,7 @@
 
 Converts non-public members to public hidden members
 
-[Introduction to Fody](https://github.com/SimonCropp/Fody/blob/master/SampleUsage.md)
+[Introduction to Fody](http://github.com/SimonCropp/Fody/wiki/SampleUsage)
 
 ## Nuget package http://nuget.org/packages/Publicize.Fody 
 
