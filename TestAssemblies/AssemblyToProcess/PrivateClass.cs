@@ -7,6 +7,7 @@ class PrivateClass
     {
         
     }
+// ReSharper disable UnusedParameter.Local
     internal PrivateClass(string @internal)
     {
         
@@ -20,6 +21,7 @@ class PrivateClass
     {
         
     }
+    // ReSharper restore UnusedParameter.Local
     string PrivateField;
     internal string InternalField;
     public string PublicField;

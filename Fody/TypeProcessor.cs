@@ -5,12 +5,10 @@ using Mono.Collections.Generic;
 
 public class TypeProcessor
 {
-    ModuleWeaver moduleWeaver;
     MsCoreReferenceFinder msCoreReferenceFinder;
 
-    public TypeProcessor(ModuleWeaver moduleWeaver, MsCoreReferenceFinder msCoreReferenceFinder)
+    public TypeProcessor(MsCoreReferenceFinder msCoreReferenceFinder)
     {
-        this.moduleWeaver = moduleWeaver;
         this.msCoreReferenceFinder = msCoreReferenceFinder;
     }
 

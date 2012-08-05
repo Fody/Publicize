@@ -13,7 +13,7 @@ public class AssemblyProcessor
 
     public void Execute()
     {
-        foreach (var type in moduleDefinition.GetAllTypeDefinitions())
+        foreach (var type in moduleDefinition.GetTypes())
         {
             typeProcessor.Execute(type);
         }

@@ -15,7 +15,7 @@ public class ModuleWeaver
     {
         var msCoreReferenceFinder = new MsCoreReferenceFinder(this, ModuleDefinition.AssemblyResolver);
         msCoreReferenceFinder.Execute();
-        var typeProcessor = new TypeProcessor(this, msCoreReferenceFinder);
+        var typeProcessor = new TypeProcessor(msCoreReferenceFinder);
         new AssemblyProcessor(typeProcessor, ModuleDefinition).Execute();
     }
 

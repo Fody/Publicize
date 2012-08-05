@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyProcessor.cs" />
-    <Compile Include="CecilExtensions.cs" />
     <Compile Include="MsCoreReferenceFinder.cs" />
     <Compile Include="TypeProcessor.cs" />
     <Compile Include="ModuleWeaver.cs" />
