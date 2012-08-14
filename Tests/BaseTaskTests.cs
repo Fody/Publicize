@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
@@ -31,6 +32,14 @@ public abstract class BaseTaskTests
         var type = TestMembers("PrivateClass");
         Assert.IsTrue(type.ContainsHideAttribute());
         ValidateMembers(type);
+    }
+    [Test]
+    public void ContainsOnlyOneAttribute()
+    {
+        var type = assembly.GetType("ClassWithEditorBrowsableAttribute");
+
+        var atttributeCount = type.GetCustomAttributes(false).OfType<EditorBrowsableAttribute>().Count();
+        Assert.AreEqual(1, atttributeCount);
     }
 
     [Test]

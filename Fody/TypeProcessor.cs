@@ -28,7 +28,7 @@ public class TypeProcessor
             {
                 typeDefinition.IsPublic = true;
             }
-            AddCEditorBrowsableAttribute(typeDefinition.CustomAttributes);
+            AddEditorBrowsableAttribute(typeDefinition.CustomAttributes);
         }
         if (typeDefinition.IsInterface)
         {
@@ -70,7 +70,7 @@ public class TypeProcessor
         if (requiresPublicize)
         {
             field.IsPublic = true;
-            AddCEditorBrowsableAttribute(field.CustomAttributes);
+            AddEditorBrowsableAttribute(field.CustomAttributes);
         }
     }
 
@@ -106,12 +106,16 @@ public class TypeProcessor
         if (requiresPublicize)
         {
             method.IsPublic = true;
-            AddCEditorBrowsableAttribute(method.CustomAttributes);
+            AddEditorBrowsableAttribute(method.CustomAttributes);
         }
     }
 
-    void AddCEditorBrowsableAttribute(Collection<CustomAttribute> customAttributes)
+    void AddEditorBrowsableAttribute(Collection<CustomAttribute> customAttributes)
     {
+        if (customAttributes.Any(x=>x.AttributeType.Name == "EditorBrowsableAttribute"))
+        {
+            return;
+        }
         var customAttribute = new CustomAttribute(msCoreReferenceFinder.EditorBrowsableConstructor);
         customAttribute.ConstructorArguments.Add(new CustomAttributeArgument(msCoreReferenceFinder.EditorBrowsableStateType, msCoreReferenceFinder.AdvancedStateConstant));
         customAttributes.Add(customAttribute);
