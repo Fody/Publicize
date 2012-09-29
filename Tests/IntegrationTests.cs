@@ -1,30 +1,39 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using Mono.Cecil;
 using NUnit.Framework;
 
-public abstract class BaseTaskTests
+[TestFixture]
+public class IntegrationTests
 {
-    string projectPath;
     Assembly assembly;
 
-    protected BaseTaskTests(string projectPath)
+    public IntegrationTests()
     {
-
+        var assemblyPath = Path.GetFullPath(@"..\..\..\AssemblyToProcess\bin\Debug\AssemblyToProcess.dll");
 #if (!DEBUG)
 
-            projectPath = projectPath.Replace("Debug", "Release");
+        assemblyPath = assemblyPath.Replace("Debug", "Release");
 #endif
-        this.projectPath = projectPath;
+
+        var newAssembly = assemblyPath.Replace(".dll", "2.dll");
+        File.Copy(assemblyPath, newAssembly, true);
+
+        var moduleDefinition = ModuleDefinition.ReadModule(newAssembly);
+        var weavingTask = new ModuleWeaver
+                              {
+                                  ModuleDefinition = moduleDefinition,
+                              };
+
+        weavingTask.Execute();
+        moduleDefinition.Write(newAssembly);
+
+        assembly = Assembly.LoadFile(newAssembly);
     }
 
-    [TestFixtureSetUp]
-    public void Setup()
-    {
-        var weaverHelper = new WeaverHelper(projectPath);
-        assembly = weaverHelper.Assembly;
-    }
 
     [Test]
     public void PrivateClass()
