@@ -10,28 +10,30 @@ using NUnit.Framework;
 public class IntegrationTests
 {
     Assembly assembly;
+    string beforeAssemblyPath;
+    string afterAssemblyPath;
 
     public IntegrationTests()
     {
-        var assemblyPath = Path.GetFullPath(@"..\..\..\AssemblyToProcess\bin\Debug\AssemblyToProcess.dll");
+        beforeAssemblyPath = Path.GetFullPath(@"..\..\..\AssemblyToProcess\bin\Debug\AssemblyToProcess.dll");
 #if (!DEBUG)
 
-        assemblyPath = assemblyPath.Replace("Debug", "Release");
+        beforeAssemblyPath = beforeAssemblyPath.Replace("Debug", "Release");
 #endif
 
-        var newAssembly = assemblyPath.Replace(".dll", "2.dll");
-        File.Copy(assemblyPath, newAssembly, true);
+        afterAssemblyPath = beforeAssemblyPath.Replace(".dll", "2.dll");
+        File.Copy(beforeAssemblyPath, afterAssemblyPath, true);
 
-        var moduleDefinition = ModuleDefinition.ReadModule(newAssembly);
+        var moduleDefinition = ModuleDefinition.ReadModule(afterAssemblyPath);
         var weavingTask = new ModuleWeaver
                               {
                                   ModuleDefinition = moduleDefinition,
                               };
 
         weavingTask.Execute();
-        moduleDefinition.Write(newAssembly);
+        moduleDefinition.Write(afterAssemblyPath);
 
-        assembly = Assembly.LoadFile(newAssembly);
+        assembly = Assembly.LoadFile(afterAssemblyPath);
     }
 
 
@@ -185,7 +187,7 @@ public class IntegrationTests
     [Test]
     public void PeVerify()
     {
-        Verifier.Verify(assembly.CodeBase.Remove(0, 8));
+        Verifier.Verify(beforeAssemblyPath, afterAssemblyPath);
     }
 #endif
 
