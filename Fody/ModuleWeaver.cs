@@ -1,7 +1,7 @@
 ﻿using System;
 using Mono.Cecil;
 
-public class ModuleWeaver
+public partial class ModuleWeaver
 {
     public Action<string> LogInfo { get; set; }
     public ModuleDefinition ModuleDefinition{ get; set; }
@@ -13,10 +13,12 @@ public class ModuleWeaver
 
     public void Execute()
     {
-        var msCoreReferenceFinder = new MsCoreReferenceFinder(this, ModuleDefinition.AssemblyResolver);
-        msCoreReferenceFinder.Execute();
-        var typeProcessor = new TypeProcessor(msCoreReferenceFinder);
-        new AssemblyProcessor(typeProcessor, ModuleDefinition).Execute();
+        FindSystemTypes();
+
+        foreach (var type in ModuleDefinition.GetTypes())
+        {
+            ProcessType(type);
+        }
     }
 
 }

@@ -3,16 +3,10 @@ using System.Linq;
 using Mono.Cecil;
 using Mono.Collections.Generic;
 
-public class TypeProcessor
+public partial class ModuleWeaver
 {
-    MsCoreReferenceFinder msCoreReferenceFinder;
 
-    public TypeProcessor(MsCoreReferenceFinder msCoreReferenceFinder)
-    {
-        this.msCoreReferenceFinder = msCoreReferenceFinder;
-    }
-
-    public void Execute(TypeDefinition typeDefinition)
+    public void ProcessType(TypeDefinition typeDefinition)
     {
         if (IsCompilerGenerated(typeDefinition.CustomAttributes))
         {
@@ -116,8 +110,8 @@ public class TypeProcessor
         {
             return;
         }
-        var customAttribute = new CustomAttribute(msCoreReferenceFinder.EditorBrowsableConstructor);
-        customAttribute.ConstructorArguments.Add(new CustomAttributeArgument(msCoreReferenceFinder.EditorBrowsableStateType, msCoreReferenceFinder.AdvancedStateConstant));
+        var customAttribute = new CustomAttribute(EditorBrowsableConstructor);
+        customAttribute.ConstructorArguments.Add(new CustomAttributeArgument(EditorBrowsableStateType, AdvancedStateConstant));
         customAttributes.Add(customAttribute);
     }
 }

@@ -63,7 +63,6 @@
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyProcessor.cs" />
     <Compile Include="MsCoreReferenceFinder.cs" />
     <Compile Include="TypeProcessor.cs" />
     <Compile Include="ModuleWeaver.cs" />

@@ -1,28 +1,21 @@
 using System.Linq;
 using Mono.Cecil;
 
-public class MsCoreReferenceFinder
+public partial class ModuleWeaver
 {
-    ModuleWeaver moduleWeaver;
-    IAssemblyResolver assemblyResolver;
     public MethodReference EditorBrowsableConstructor;
     public TypeDefinition EditorBrowsableStateType;
     public int AdvancedStateConstant;
 
-    public MsCoreReferenceFinder(ModuleWeaver moduleWeaver, IAssemblyResolver assemblyResolver)
-    {
-        this.moduleWeaver = moduleWeaver;
-        this.assemblyResolver = assemblyResolver;
-    }
 
 
-    public void Execute()
+    public void FindSystemTypes()
     {
-        var assemblyDefinition = assemblyResolver.Resolve("System");
+        var assemblyDefinition = ModuleDefinition.AssemblyResolver.Resolve("System");
         var msCoreTypes = assemblyDefinition.MainModule.Types;
 
         var attribyteType = msCoreTypes.First(x => x.Name == "EditorBrowsableAttribute");
-        EditorBrowsableConstructor = moduleWeaver.ModuleDefinition.Import(attribyteType.Methods.First(IsDesiredConstructor));
+        EditorBrowsableConstructor = ModuleDefinition.Import(attribyteType.Methods.First(IsDesiredConstructor));
         EditorBrowsableStateType = msCoreTypes.First(x => x.Name == "EditorBrowsableState");
         var fieldDefinition = EditorBrowsableStateType.Fields.First(x => x.Name == "Advanced");
         AdvancedStateConstant =(int) fieldDefinition.Constant;
