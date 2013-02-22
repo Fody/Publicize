@@ -7,8 +7,6 @@ public partial class ModuleWeaver
     public TypeDefinition EditorBrowsableStateType;
     public int AdvancedStateConstant;
 
-
-
     public void FindSystemTypes()
     {
         var assemblyDefinition = ModuleDefinition.AssemblyResolver.Resolve("System");
