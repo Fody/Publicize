@@ -1,5 +1,6 @@
 using System.Linq;
 using Mono.Cecil;
+using Mono.Collections.Generic;
 
 public partial class ModuleWeaver
 {
@@ -9,14 +10,23 @@ public partial class ModuleWeaver
 
     public void FindSystemTypes()
     {
-        var assemblyDefinition = ModuleDefinition.AssemblyResolver.Resolve("System");
-        var msCoreTypes = assemblyDefinition.MainModule.Types;
+        Collection<TypeDefinition> msCoreTypes;
 
-        var attribyteType = msCoreTypes.First(x => x.Name == "EditorBrowsableAttribute");
+        var attribyteType =
+            GetAttributeType("System", out msCoreTypes) ??
+            GetAttributeType("System.Runtime", out msCoreTypes);
+
         EditorBrowsableConstructor = ModuleDefinition.Import(attribyteType.Methods.First(IsDesiredConstructor));
         EditorBrowsableStateType = msCoreTypes.First(x => x.Name == "EditorBrowsableState");
         var fieldDefinition = EditorBrowsableStateType.Fields.First(x => x.Name == "Advanced");
-        AdvancedStateConstant =(int) fieldDefinition.Constant;
+        AdvancedStateConstant = (int)fieldDefinition.Constant;
+    }
+
+    TypeDefinition GetAttributeType(string assemblyName, out Collection<TypeDefinition> msCoreTypes)
+    {
+        var assemblyDefinition = ModuleDefinition.AssemblyResolver.Resolve(assemblyName);
+        msCoreTypes = assemblyDefinition.MainModule.Types;
+        return msCoreTypes.FirstOrDefault(x => x.Name == "EditorBrowsableAttribute");
     }
 
     static bool IsDesiredConstructor(MethodDefinition x)
@@ -31,5 +41,4 @@ public partial class ModuleWeaver
         }
         return x.Parameters[0].ParameterType.Name == "EditorBrowsableState";
     }
-
 }
