@@ -1,6 +1,5 @@
 using System.Linq;
 using Mono.Cecil;
-using Mono.Collections.Generic;
 
 public partial class ModuleWeaver
 {
@@ -10,23 +9,29 @@ public partial class ModuleWeaver
 
     public void FindSystemTypes()
     {
-        Collection<TypeDefinition> msCoreTypes;
+        var system = ModuleDefinition.AssemblyResolver.Resolve("System");
+        var systemTypes = system.MainModule.Types;
+        var editorBrowsableAttribute = systemTypes.FirstOrDefault(x => x.Name == "EditorBrowsableAttribute");
 
-        var attribyteType =
-            GetAttributeType("System", out msCoreTypes) ??
-            GetAttributeType("System.Runtime", out msCoreTypes);
+        if (editorBrowsableAttribute == null)
+        {
+            var systemRuntime = ModuleDefinition.AssemblyResolver.Resolve("System.Runtime");
+            var systemRuntimeTypes = systemRuntime.MainModule.Types;
+            editorBrowsableAttribute = systemRuntimeTypes.FirstOrDefault(x => x.Name == "EditorBrowsableAttribute");
+            if (editorBrowsableAttribute == null)
+            {
+                throw new WeavingException("Could not find 'EditorBrowsableAttribute'. Searched in 'System' and 'System.Runtime'.");
+            }
+            EditorBrowsableStateType = systemRuntimeTypes.First(x => x.Name == "EditorBrowsableState");
+        }
+        else
+        {
+            EditorBrowsableStateType = systemTypes.First(x => x.Name == "EditorBrowsableState");
+        }
 
-        EditorBrowsableConstructor = ModuleDefinition.Import(attribyteType.Methods.First(IsDesiredConstructor));
-        EditorBrowsableStateType = msCoreTypes.First(x => x.Name == "EditorBrowsableState");
+        EditorBrowsableConstructor = ModuleDefinition.Import(editorBrowsableAttribute.Methods.First(IsDesiredConstructor));
         var fieldDefinition = EditorBrowsableStateType.Fields.First(x => x.Name == "Advanced");
         AdvancedStateConstant = (int)fieldDefinition.Constant;
-    }
-
-    TypeDefinition GetAttributeType(string assemblyName, out Collection<TypeDefinition> msCoreTypes)
-    {
-        var assemblyDefinition = ModuleDefinition.AssemblyResolver.Resolve(assemblyName);
-        msCoreTypes = assemblyDefinition.MainModule.Types;
-        return msCoreTypes.FirstOrDefault(x => x.Name == "EditorBrowsableAttribute");
     }
 
     static bool IsDesiredConstructor(MethodDefinition x)
