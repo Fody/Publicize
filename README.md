@@ -1,5 +1,7 @@
 ## This is an add-in for [Fody](https://github.com/Fody/Fody/) 
 
+![Icon](https://raw.github.com/Fody/Publicize/master/Icons/package_icon.png)
+
 Converts non-public members to public hidden members
 
 [Introduction to Fody](http://github.com/Fody/Fody/wiki/SampleUsage)
