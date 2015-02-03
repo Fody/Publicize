@@ -6,7 +6,11 @@ Converts non-public members to public hidden members
 
 [Introduction to Fody](http://github.com/Fody/Fody/wiki/SampleUsage)
 
-## Nuget package http://nuget.org/packages/Publicize.Fody 
+## The nuget package  [![NuGet Status](http://img.shields.io/nuget/v/Publicize.Fody.svg?style=flat)](https://www.nuget.org/packages/Publicize.Fody/)
+
+https://nuget.org/packages/Publicize.Fody/
+
+    PM> Install-Package Publicize.Fody
 
 Converts internal and private members to public and adds [EditorBrowsable(EditorBrowsableState.Advanced)].
 
