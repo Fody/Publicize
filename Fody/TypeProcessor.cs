@@ -5,24 +5,27 @@ using Mono.Collections.Generic;
 
 public partial class ModuleWeaver
 {
-
-    public void ProcessType(TypeDefinition typeDefinition)
+    public void ProcessType(TypeDefinition typeDefinition, bool isEnabled)
     {
         if (IsCompilerGenerated(typeDefinition.CustomAttributes))
         {
             return;
         }
-        if (typeDefinition.IsNotPublic)
+        bool isPublicized = IsPublicizeEnabled(typeDefinition.CustomAttributes, isEnabled);
+        if (isPublicized)
         {
-            if (typeDefinition.IsNested)
+            if (typeDefinition.IsNotPublic)
             {
-                typeDefinition.IsNestedPublic = true;
+                if (typeDefinition.IsNested)
+                {
+                    typeDefinition.IsNestedPublic = true;
+                }
+                else
+                {
+                    typeDefinition.IsPublic = true;
+                }
+                AddEditorBrowsableAttribute(typeDefinition.CustomAttributes);
             }
-            else
-            {
-                typeDefinition.IsPublic = true;
-            }
-            AddEditorBrowsableAttribute(typeDefinition.CustomAttributes);
         }
         if (typeDefinition.IsInterface)
         {
@@ -31,17 +34,21 @@ public partial class ModuleWeaver
 
         foreach (var method in typeDefinition.Methods)
         {
-            ProcessMethod(method);
+            ProcessMethod(method, isPublicized);
         }
         foreach (var field in typeDefinition.Fields)
         {
-            ProcessField(field);
+            ProcessField(field, isPublicized);
         }
     }
 
 
-    void ProcessField(FieldDefinition field)
+    void ProcessField(FieldDefinition field, bool isEnabled)
     {
+        bool isPublicized = IsPublicizeEnabled(field.CustomAttributes, isEnabled);
+        if (!isPublicized)
+            return;
+
         if (IsCompilerGenerated(field.CustomAttributes))
         {
             return;
@@ -74,8 +81,12 @@ public partial class ModuleWeaver
         return customAttributes.Any(x=>x.AttributeType.Name == "CompilerGeneratedAttribute");
     }
 
-    void ProcessMethod(MethodDefinition method)
+    void ProcessMethod(MethodDefinition method, bool isEnabled)
     {
+        bool isPublicized = IsPublicizeEnabled(method.CustomAttributes, isEnabled);
+        if (!isPublicized)
+            return;
+
         var requiresPublicize = false;
         if (method.IsPublic)
         {

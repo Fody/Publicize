@@ -13,7 +13,6 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -93,6 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeChecker.cs" />
+    <Compile Include="Attributes\DisablePublicizeAttribute.cs" />
+    <Compile Include="Attributes\PublicizeOffAttribute.cs" />
+    <Compile Include="Attributes\PublicizeOnAttribute.cs" />
     <Compile Include="IntegrationTests.cs" />
     <Compile Include="MsCoreReferenceFinder.cs" />
     <Compile Include="TypeProcessor.cs" />

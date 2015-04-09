@@ -44,6 +44,25 @@ public class IntegrationTests
         Assert.IsTrue(type.ContainsHideAttribute());
         ValidateMembers(type);
     }
+
+    [Test]
+    public void PublicDisabledClass()
+    {
+        var type = assembly.CreateInstance("PublicDisabledClass").GetType();
+        Assert.IsFalse(type.ContainsHideAttribute());
+        var privateMethod = type.GetMethod("TestMethod");
+        Assert.IsNull(privateMethod);
+    }
+
+    [Test]
+    public void PublicDisabledClassWithEnabledMethod_FirstMethodIsPublicized()
+    {
+        var type = assembly.CreateInstance("PublicDisabledClassWithEnabledMethod").GetType();
+        var method = type.GetMethod("TestMethodToBePublic");
+        Assert.IsNotNull(method); // is public
+        Assert.IsTrue(method.ContainsHideAttribute());
+    }
+
     [Test]
     public void ContainsOnlyOneAttribute()
     {
