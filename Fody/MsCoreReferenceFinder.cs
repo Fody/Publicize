@@ -29,7 +29,7 @@ public partial class ModuleWeaver
             EditorBrowsableStateType = systemTypes.First(x => x.Name == "EditorBrowsableState");
         }
 
-        EditorBrowsableConstructor = ModuleDefinition.Import(editorBrowsableAttribute.Methods.First(IsDesiredConstructor));
+        EditorBrowsableConstructor = ModuleDefinition.ImportReference(editorBrowsableAttribute.Methods.First(IsDesiredConstructor));
         var fieldDefinition = EditorBrowsableStateType.Fields.First(x => x.Name == "Advanced");
         AdvancedStateConstant = (int)fieldDefinition.Constant;
     }
