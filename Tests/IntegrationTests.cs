@@ -15,7 +15,7 @@ public class IntegrationTests
 
     public IntegrationTests()
     {
-        beforeAssemblyPath = Path.GetFullPath(@"..\..\..\AssemblyToProcess\bin\Debug\AssemblyToProcess.dll");
+        beforeAssemblyPath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory,@"..\..\..\AssemblyToProcess\bin\Debug\AssemblyToProcess.dll"));
 #if (!DEBUG)
 
         beforeAssemblyPath = beforeAssemblyPath.Replace("Debug", "Release");
@@ -49,8 +49,8 @@ public class IntegrationTests
     {
         var type = assembly.GetType("ClassWithEditorBrowsableAttribute");
 
-        var atttributeCount = type.GetCustomAttributes(false).OfType<EditorBrowsableAttribute>().Count();
-        Assert.AreEqual(1, atttributeCount);
+        var attributeCount = type.GetCustomAttributes(false).OfType<EditorBrowsableAttribute>().Count();
+        Assert.AreEqual(1, attributeCount);
     }
 
     [Test]
@@ -58,7 +58,7 @@ public class IntegrationTests
     {
         var type = assembly.GetType("PublicInterface");
         Assert.IsFalse(type.ContainsHideAttribute());
-        
+
         var property = type.GetProperty("Property");
         Assert.IsFalse(property.GetSetMethod().ContainsHideAttribute());
         Assert.IsFalse(property.GetGetMethod().ContainsHideAttribute());

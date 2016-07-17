@@ -1,25 +1,26 @@
 using System;
+// ReSharper disable UnusedMember.Local
 
 public  class PublicClass
 {
-    
+
     public PublicClass ()
     {
-        
+
     }
 // ReSharper disable UnusedParameter.Local
     internal PublicClass(string @internal)
     {
-        
+
     }
     private PublicClass(int @private)
     {
-        
+
     }
-    
+
     public PublicClass(bool @public)
     {
-        
+
     }
     // ReSharper restore UnusedParameter.Local
     string PrivateField;
@@ -30,7 +31,7 @@ public  class PublicClass
     public string PublicProperty { get; set; }
     event EventHandler PrivateEvent;
     internal event EventHandler InternalEvent;
-    public event EventHandler PublicEvent; 
+    public event EventHandler PublicEvent;
 
     void PrivateMethod()
     {

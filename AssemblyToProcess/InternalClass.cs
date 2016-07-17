@@ -1,24 +1,25 @@
 ﻿using System;
+// ReSharper disable UnusedMember.Local
 
 internal class InternalClass
 {
-    
+
     public InternalClass ()
     {
-        
+
     }
 // ReSharper disable UnusedParameter.Local
     internal InternalClass(string @internal)
     {
-        
+
     }
     private InternalClass(int @private)
     {
-        
+
     }
     public InternalClass(bool @public)
     {
-        
+
     }
 
     // ReSharper restore UnusedParameter.Local
@@ -31,7 +32,7 @@ internal class InternalClass
     public string PublicProperty { get; set; }
     event EventHandler PrivateEvent;
     internal event EventHandler InternalEvent;
-    public event EventHandler PublicEvent; 
+    public event EventHandler PublicEvent;
 	void PrivateMethod()
 	{
 	}
