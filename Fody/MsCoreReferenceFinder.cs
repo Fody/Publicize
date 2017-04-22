@@ -9,13 +9,13 @@ public partial class ModuleWeaver
 
     public void FindSystemTypes()
     {
-        var system = ModuleDefinition.AssemblyResolver.Resolve("System");
+        var system = ModuleDefinition.AssemblyResolver.Resolve(new AssemblyNameReference("System", null));
         var systemTypes = system.MainModule.Types;
         var editorBrowsableAttribute = systemTypes.FirstOrDefault(x => x.Name == "EditorBrowsableAttribute");
 
         if (editorBrowsableAttribute == null)
         {
-            var systemRuntime = ModuleDefinition.AssemblyResolver.Resolve("System.Runtime");
+            var systemRuntime = ModuleDefinition.AssemblyResolver.Resolve(new AssemblyNameReference("System.Runtime", null));
             var systemRuntimeTypes = systemRuntime.MainModule.Types;
             editorBrowsableAttribute = systemRuntimeTypes.FirstOrDefault(x => x.Name == "EditorBrowsableAttribute");
             if (editorBrowsableAttribute == null)
