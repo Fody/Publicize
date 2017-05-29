@@ -6,6 +6,8 @@ Converts non-public members to public hidden members
 
 [Introduction to Fody](http://github.com/Fody/Fody/wiki/SampleUsage)
 
+[![NuGet Status](https://img.shields.io/gitter/room/fody/fody.svg?style=flat)](https://gitter.im/Fody/Fody)
+
 ## The nuget package  [![NuGet Status](http://img.shields.io/nuget/v/Publicize.Fody.svg?style=flat)](https://www.nuget.org/packages/Publicize.Fody/)
 
 https://nuget.org/packages/Publicize.Fody/
