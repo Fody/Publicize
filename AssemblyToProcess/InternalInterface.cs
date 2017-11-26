@@ -6,4 +6,3 @@ interface InternalInterface
     void Method();
     event EventHandler Event;
 }
-

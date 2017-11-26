@@ -1,21 +1,21 @@
 using System;
 // ReSharper disable UnusedMember.Local
+#pragma warning disable 67
+#pragma warning disable 169
 
 class PrivateClass
 {
-
     public PrivateClass ()
     {
-
     }
+
 // ReSharper disable UnusedParameter.Local
     internal PrivateClass(string @internal)
     {
-
     }
-    private PrivateClass(int @private)
-    {
 
+    PrivateClass(int @private)
+    {
     }
 
     public PrivateClass(bool @public)

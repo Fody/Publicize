@@ -5,7 +5,6 @@ using Mono.Collections.Generic;
 
 public partial class ModuleWeaver
 {
-
     public void ProcessType(TypeDefinition typeDefinition)
     {
         if (IsCompilerGenerated(typeDefinition.CustomAttributes))
@@ -39,7 +38,6 @@ public partial class ModuleWeaver
         }
     }
 
-
     void ProcessField(FieldDefinition field)
     {
         if (IsCompilerGenerated(field.CustomAttributes))
@@ -67,7 +65,6 @@ public partial class ModuleWeaver
             AddEditorBrowsableAttribute(field.CustomAttributes);
         }
     }
-
 
     static bool IsCompilerGenerated(IEnumerable<CustomAttribute> customAttributes)
     {

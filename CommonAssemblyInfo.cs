@@ -2,5 +2,4 @@
 
 [assembly: AssemblyTitle("Publicize")]
 [assembly: AssemblyProduct("Publicize")]
-[assembly: AssemblyVersion("1.4.0")]
-[assembly: AssemblyFileVersion("1.4.0")]
+[assembly: AssemblyVersion("1.5.0")]

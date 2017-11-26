@@ -9,7 +9,7 @@ public partial class ModuleWeaver
     public ModuleWeaver()
     {
         LogInfo = s => { };
-    } 
+    }
 
     public void Execute()
     {
@@ -20,5 +20,4 @@ public partial class ModuleWeaver
             ProcessType(type);
         }
     }
-
 }

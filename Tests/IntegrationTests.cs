@@ -15,11 +15,7 @@ public class IntegrationTests
 
     public IntegrationTests()
     {
-        beforeAssemblyPath = Path.GetFullPath(Path.Combine(TestContext.CurrentContext.TestDirectory,@"..\..\..\AssemblyToProcess\bin\Debug\AssemblyToProcess.dll"));
-#if (!DEBUG)
-
-        beforeAssemblyPath = beforeAssemblyPath.Replace("Debug", "Release");
-#endif
+        beforeAssemblyPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "AssemblyToProcess.dll");
 
         afterAssemblyPath = beforeAssemblyPath.Replace(".dll", "2.dll");
         File.Copy(beforeAssemblyPath, afterAssemblyPath, true);
@@ -38,7 +34,6 @@ public class IntegrationTests
         assembly = Assembly.LoadFile(afterAssemblyPath);
     }
 
-
     [Test]
     public void PrivateClass()
     {
@@ -46,6 +41,7 @@ public class IntegrationTests
         Assert.IsTrue(type.ContainsHideAttribute());
         ValidateMembers(type);
     }
+
     [Test]
     public void ContainsOnlyOneAttribute()
     {
@@ -89,7 +85,6 @@ public class IntegrationTests
         Assert.IsFalse(@event.ContainsHideAttribute());
     }
 
-
     [Test]
     public void InternalClass()
     {
@@ -98,6 +93,7 @@ public class IntegrationTests
 
         ValidateMembers(type);
     }
+
     [Test]
     public void PublicClass()
     {
@@ -109,7 +105,6 @@ public class IntegrationTests
 
     static void ValidateMembers(Type type)
     {
-
         var constructors = type.GetConstructors();
         foreach (var constructorInfo in constructors)
         {
@@ -184,13 +179,9 @@ public class IntegrationTests
         return instance.GetType();
     }
 
-
-#if(DEBUG)
     [Test]
     public void PeVerify()
     {
         Verifier.Verify(beforeAssemblyPath, afterAssemblyPath);
     }
-#endif
-
 }

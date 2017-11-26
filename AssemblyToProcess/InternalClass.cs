@@ -1,9 +1,10 @@
 ﻿using System;
 // ReSharper disable UnusedMember.Local
+#pragma warning disable 67
+#pragma warning disable 169
 
-internal class InternalClass
+class InternalClass
 {
-
     public InternalClass ()
     {
 
@@ -11,15 +12,14 @@ internal class InternalClass
 // ReSharper disable UnusedParameter.Local
     internal InternalClass(string @internal)
     {
-
     }
-    private InternalClass(int @private)
+
+    InternalClass(int @private)
     {
-
     }
+
     public InternalClass(bool @public)
     {
-
     }
 
     // ReSharper restore UnusedParameter.Local

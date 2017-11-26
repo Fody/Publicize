@@ -1,23 +1,45 @@
 [![Chat on Gitter](https://img.shields.io/gitter/room/fody/fody.svg?style=flat)](https://gitter.im/Fody/Fody)
 [![NuGet Status](http://img.shields.io/nuget/v/Publicize.Fody.svg?style=flat)](https://www.nuget.org/packages/Publicize.Fody/)
 
+Converts internal and private members to public and adds [EditorBrowsable(EditorBrowsableState.Advanced)].
+
 
 ## This is an add-in for [Fody](https://github.com/Fody/Fody/) 
 
-![Icon](https://raw.github.com/Fody/Publicize/master/Icons/package_icon.png)
+![Icon](https://raw.github.com/Fody/Publicize/master/package_icon.png)
 
 Converts non-public members to public hidden members
 
 [Introduction to Fody](http://github.com/Fody/Fody/wiki/SampleUsage)
 
 
-## The nuget package
+## Usage
 
-https://nuget.org/packages/Publicize.Fody/
+See also [Fody usage](https://github.com/Fody/Fody#usage).
 
-    PM> Install-Package Publicize.Fody
 
-Converts internal and private members to public and adds [EditorBrowsable(EditorBrowsableState.Advanced)].
+### NuGet installation
+
+Install the [Publicize.Fody NuGet package](https://nuget.org/packages/Publicize.Fody/) and update the [Fody NuGet package](https://nuget.org/packages/Fody/):
+
+```
+PM> Install-Package Publicize.Fody
+PM> Update-Package Fody
+```
+
+The `Update-Package Fody` is required since NuGet always defaults to the oldest, and most buggy, version of any dependency.
+
+
+### Add to FodyWeavers.xml
+
+Add `<Publicize/>` to [FodyWeavers.xml](https://github.com/Fody/Fody#add-fodyweaversxml)
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<Weavers>
+  <Publicize/>
+</Weavers>
+```
 
 
 ## Icon

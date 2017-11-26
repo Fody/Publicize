@@ -1,26 +1,25 @@
 using System;
 // ReSharper disable UnusedMember.Local
+#pragma warning disable 67
+#pragma warning disable 169
 
 public  class PublicClass
 {
-
     public PublicClass ()
     {
-
     }
+
 // ReSharper disable UnusedParameter.Local
     internal PublicClass(string @internal)
     {
-
     }
-    private PublicClass(int @private)
-    {
 
+    PublicClass(int @private)
+    {
     }
 
     public PublicClass(bool @public)
     {
-
     }
     // ReSharper restore UnusedParameter.Local
     string PrivateField;
@@ -36,6 +35,7 @@ public  class PublicClass
     void PrivateMethod()
     {
     }
+
     internal void InternalMethod()
     {
     }
