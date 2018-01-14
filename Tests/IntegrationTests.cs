@@ -1,104 +1,87 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using Mono.Cecil;
-using NUnit.Framework;
+using Fody;
+using Xunit;
+#pragma warning disable 618
 
-[TestFixture]
 public class IntegrationTests
 {
-    Assembly assembly;
-    string beforeAssemblyPath;
-    string afterAssemblyPath;
+    TestResult testResult;
 
     public IntegrationTests()
     {
-        beforeAssemblyPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "AssemblyToProcess.dll");
+        var weavingTask = new ModuleWeaver();
 
-        afterAssemblyPath = beforeAssemblyPath.Replace(".dll", "2.dll");
-        File.Copy(beforeAssemblyPath, afterAssemblyPath, true);
-
-        using (var moduleDefinition = ModuleDefinition.ReadModule(beforeAssemblyPath))
-        {
-            var weavingTask = new ModuleWeaver
-            {
-                ModuleDefinition = moduleDefinition,
-            };
-
-            weavingTask.Execute();
-            moduleDefinition.Write(afterAssemblyPath);
-        }
-
-        assembly = Assembly.LoadFile(afterAssemblyPath);
+        testResult = weavingTask.ExecuteTestRun(
+            assemblyPath: "AssemblyToProcess.dll");
     }
 
-    [Test]
+    [Fact]
     public void PrivateClass()
     {
         var type = TestMembers("PrivateClass");
-        Assert.IsTrue(type.ContainsHideAttribute());
+        Assert.True(type.ContainsHideAttribute());
         ValidateMembers(type);
     }
 
-    [Test]
+    [Fact]
     public void ContainsOnlyOneAttribute()
     {
-        var type = assembly.GetType("ClassWithEditorBrowsableAttribute");
+        var type = testResult.Assembly.GetType("ClassWithEditorBrowsableAttribute");
 
         var attributeCount = type.GetCustomAttributes(false).OfType<EditorBrowsableAttribute>().Count();
-        Assert.AreEqual(1, attributeCount);
+        Assert.Equal(1, attributeCount);
     }
 
-    [Test]
+    [Fact]
     public void PublicInterface()
     {
-        var type = assembly.GetType("PublicInterface");
-        Assert.IsFalse(type.ContainsHideAttribute());
+        var type = testResult.Assembly.GetType("PublicInterface");
+        Assert.False(type.ContainsHideAttribute());
 
         var property = type.GetProperty("Property");
-        Assert.IsFalse(property.GetSetMethod().ContainsHideAttribute());
-        Assert.IsFalse(property.GetGetMethod().ContainsHideAttribute());
+        Assert.False(property.GetSetMethod().ContainsHideAttribute());
+        Assert.False(property.GetGetMethod().ContainsHideAttribute());
 
         var method = type.GetMethod("Method");
-        Assert.IsFalse(method.ContainsHideAttribute());
+        Assert.False(method.ContainsHideAttribute());
 
         var @event = type.GetEvent("Event");
-        Assert.IsFalse(@event.ContainsHideAttribute());
+        Assert.False(@event.ContainsHideAttribute());
     }
 
-    [Test]
+    [Fact]
     public void InternalInterface()
     {
-        var type = assembly.GetType("InternalInterface");
-        Assert.IsTrue(type.ContainsHideAttribute());
+        var type = testResult.Assembly.GetType("InternalInterface");
+        Assert.True(type.ContainsHideAttribute());
 
         var property = type.GetProperty("Property");
-        Assert.IsFalse(property.GetSetMethod().ContainsHideAttribute());
-        Assert.IsFalse(property.GetGetMethod().ContainsHideAttribute());
+        Assert.False(property.GetSetMethod().ContainsHideAttribute());
+        Assert.False(property.GetGetMethod().ContainsHideAttribute());
 
         var method = type.GetMethod("Method");
-        Assert.IsFalse(method.ContainsHideAttribute());
+        Assert.False(method.ContainsHideAttribute());
 
         var @event = type.GetEvent("Event");
-        Assert.IsFalse(@event.ContainsHideAttribute());
+        Assert.False(@event.ContainsHideAttribute());
     }
 
-    [Test]
+    [Fact]
     public void InternalClass()
     {
         var type = TestMembers("InternalClass");
-        Assert.IsTrue(type.ContainsHideAttribute());
+        Assert.True(type.ContainsHideAttribute());
 
         ValidateMembers(type);
     }
 
-    [Test]
+    [Fact]
     public void PublicClass()
     {
         var type = TestMembers("PublicClass");
-        Assert.IsFalse(type.ContainsHideAttribute());
+        Assert.False(type.ContainsHideAttribute());
 
         ValidateMembers(type);
     }
@@ -108,57 +91,57 @@ public class IntegrationTests
         var constructors = type.GetConstructors();
         foreach (var constructorInfo in constructors)
         {
-            Assert.IsTrue(constructorInfo.IsPublic);
+            Assert.True(constructorInfo.IsPublic);
         }
 
         var publicConstructor = constructors.First(x => x.GetParameters().Any(y => y.Name == "public"));
-        Assert.IsFalse(publicConstructor.ContainsHideAttribute());
+        Assert.False(publicConstructor.ContainsHideAttribute());
         var internalConstructor = constructors.First(x => x.GetParameters().Any(y => y.Name == "internal"));
-        Assert.IsTrue(internalConstructor.ContainsHideAttribute());
+        Assert.True(internalConstructor.ContainsHideAttribute());
         var privateConstructor = constructors.First(x => x.GetParameters().Any(y => y.Name == "private"));
-        Assert.IsTrue(privateConstructor.ContainsHideAttribute());
+        Assert.True(privateConstructor.ContainsHideAttribute());
 
         var publicProperty = type.GetProperty("PublicProperty");
-        Assert.IsFalse(publicProperty.GetSetMethod().ContainsHideAttribute());
-        Assert.IsFalse(publicProperty.GetGetMethod().ContainsHideAttribute());
+        Assert.False(publicProperty.GetSetMethod().ContainsHideAttribute());
+        Assert.False(publicProperty.GetGetMethod().ContainsHideAttribute());
 
         var privateProperty = type.GetProperty("PrivateProperty");
-        Assert.IsTrue(privateProperty.GetSetMethod().ContainsHideAttribute());
-        Assert.IsTrue(privateProperty.GetGetMethod().ContainsHideAttribute());
+        Assert.True(privateProperty.GetSetMethod().ContainsHideAttribute());
+        Assert.True(privateProperty.GetGetMethod().ContainsHideAttribute());
 
         var internalProperty = type.GetProperty("InternalProperty");
-        Assert.IsTrue(internalProperty.GetSetMethod().ContainsHideAttribute());
-        Assert.IsTrue(internalProperty.GetGetMethod().ContainsHideAttribute());
+        Assert.True(internalProperty.GetSetMethod().ContainsHideAttribute());
+        Assert.True(internalProperty.GetGetMethod().ContainsHideAttribute());
 
         var publicMethod = type.GetMethod("PublicMethod");
-        Assert.IsFalse(publicMethod.ContainsHideAttribute());
+        Assert.False(publicMethod.ContainsHideAttribute());
 
         var privateMethod = type.GetMethod("PrivateMethod");
-        Assert.IsTrue(privateMethod.ContainsHideAttribute());
+        Assert.True(privateMethod.ContainsHideAttribute());
 
         var internalMethod = type.GetMethod("InternalMethod");
-        Assert.IsTrue(internalMethod.ContainsHideAttribute());
+        Assert.True(internalMethod.ContainsHideAttribute());
 
         var publicField = type.GetField("PublicField");
-        Assert.IsFalse(publicField.ContainsHideAttribute());
+        Assert.False(publicField.ContainsHideAttribute());
 
         var privateField = type.GetField("PrivateField");
-        Assert.IsTrue(privateField.ContainsHideAttribute());
+        Assert.True(privateField.ContainsHideAttribute());
 
         var internalField = type.GetField("InternalField");
-        Assert.IsTrue(internalField.ContainsHideAttribute());
+        Assert.True(internalField.ContainsHideAttribute());
 
         var publicEvent = type.GetEvent("PublicEvent");
-        Assert.IsFalse(publicEvent.GetRemoveMethod().ContainsHideAttribute());
-        Assert.IsFalse(publicEvent.GetAddMethod().ContainsHideAttribute());
+        Assert.False(publicEvent.GetRemoveMethod().ContainsHideAttribute());
+        Assert.False(publicEvent.GetAddMethod().ContainsHideAttribute());
 
         var privateEvent = type.GetEvent("PrivateEvent");
-        Assert.IsTrue(privateEvent.GetRemoveMethod().ContainsHideAttribute());
-        Assert.IsTrue(privateEvent.GetAddMethod().ContainsHideAttribute());
+        Assert.True(privateEvent.GetRemoveMethod().ContainsHideAttribute());
+        Assert.True(privateEvent.GetAddMethod().ContainsHideAttribute());
 
         var internalEvent = type.GetEvent("InternalEvent");
-        Assert.IsTrue(internalEvent.GetRemoveMethod().ContainsHideAttribute());
-        Assert.IsTrue(internalEvent.GetAddMethod().ContainsHideAttribute());
+        Assert.True(internalEvent.GetRemoveMethod().ContainsHideAttribute());
+        Assert.True(internalEvent.GetAddMethod().ContainsHideAttribute());
     }
 
     Type TestMembers(string typeName)
@@ -166,7 +149,7 @@ public class IntegrationTests
         //Type type = assembly.GetType(typeName);
         //MemberInfo memberInfo = type.GetMember("PrivateProperty").First();
         //object[] customAttributes = memberInfo.GetCustomAttributes(typeof (EditorBrowsableAttribute), false);
-        dynamic instance = assembly.CreateInstance(typeName);
+        var instance = testResult.GetInstance(typeName);
         instance.PrivateProperty = "Foo";
         instance.InternalProperty = "Foo";
         instance.PublicProperty = "Foo";
@@ -177,11 +160,5 @@ public class IntegrationTests
         instance.InternalField = "Foo";
         instance.PublicField = "Foo";
         return instance.GetType();
-    }
-
-    [Test]
-    public void PeVerify()
-    {
-        Verifier.Verify(beforeAssemblyPath, afterAssemblyPath);
     }
 }

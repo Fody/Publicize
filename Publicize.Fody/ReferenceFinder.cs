@@ -8,35 +8,20 @@ public partial class ModuleWeaver
     public TypeDefinition EditorBrowsableStateType;
     public int AdvancedStateConstant;
 
+
+    public override IEnumerable<string> GetAssembliesForScanning()
+    {
+        yield return "System";
+        yield return "System.Runtime";
+    }
+
     public void FindSystemTypes()
     {
-        var refTypes = new List<TypeDefinition>();
-        AddAssemblyIfExists("System", refTypes);
-        AddAssemblyIfExists("System.Runtime", refTypes);
-        var editorBrowsableAttribute = refTypes.First(x => x.Name == "EditorBrowsableAttribute");
-        EditorBrowsableStateType = refTypes.First(x => x.Name == "EditorBrowsableState");
+        var editorBrowsableAttribute = FindType("System.ComponentModel.EditorBrowsableAttribute");
+        EditorBrowsableStateType = FindType("System.ComponentModel.EditorBrowsableState");
         EditorBrowsableConstructor = ModuleDefinition.ImportReference(editorBrowsableAttribute.Methods.First(IsDesiredConstructor));
         var fieldDefinition = EditorBrowsableStateType.Fields.First(x => x.Name == "Advanced");
         AdvancedStateConstant = (int)fieldDefinition.Constant;
-    }
-
-    void AddAssemblyIfExists(string name, List<TypeDefinition> refTypes)
-    {
-        try
-        {
-            var assembly = ModuleDefinition.AssemblyResolver.Resolve(new AssemblyNameReference(name, null));
-            if (assembly == null)
-            {
-                return;
-            }
-            var module = assembly.MainModule;
-            refTypes.AddRange(module.Types);
-            refTypes.AddRange(ResolveExportedTypes(module));
-        }
-        catch (AssemblyResolutionException)
-        {
-            LogInfo($"Failed to resolve '{name}'. So skipping its types.");
-        }
     }
 
     static bool IsDesiredConstructor(MethodDefinition method)
@@ -45,17 +30,12 @@ public partial class ModuleWeaver
         {
             return false;
         }
+
         if (method.Parameters.Count != 1)
         {
             return false;
         }
-        return method.Parameters[0].ParameterType.Name == "EditorBrowsableState";
-    }
 
-    static IEnumerable<TypeDefinition> ResolveExportedTypes(ModuleDefinition module)
-    {
-        return module.ExportedTypes
-            .Select(exportedType => exportedType.Resolve())
-            .Where(typeDefinition => typeDefinition != null);
+        return method.Parameters[0].ParameterType.Name == "EditorBrowsableState";
     }
 }

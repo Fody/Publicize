@@ -1,17 +1,8 @@
-﻿using System;
-using Mono.Cecil;
+﻿using Fody;
 
-public partial class ModuleWeaver
+public partial class ModuleWeaver:BaseModuleWeaver
 {
-    public Action<string> LogInfo { get; set; }
-    public ModuleDefinition ModuleDefinition{ get; set; }
-
-    public ModuleWeaver()
-    {
-        LogInfo = s => { };
-    }
-
-    public void Execute()
+    public override void Execute()
     {
         FindSystemTypes();
 
@@ -20,4 +11,6 @@ public partial class ModuleWeaver
             ProcessType(type);
         }
     }
+
+    public override bool ShouldCleanReference => true;
 }
