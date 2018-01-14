@@ -1,12 +1,12 @@
-[![Chat on Gitter](https://img.shields.io/gitter/room/fody/fody.svg?style=flat)](https://gitter.im/Fody/Fody)
-[![NuGet Status](http://img.shields.io/nuget/v/Publicize.Fody.svg?style=flat)](https://www.nuget.org/packages/Publicize.Fody/)
+[![Chat on Gitter](https://img.shields.io/gitter/room/fody/fody.svg?style=flat&max-age=86400)](https://gitter.im/Fody/Fody)
+[![NuGet Status](http://img.shields.io/nuget/v/Publicize.Fody.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/Publicize.Fody/)
 
 Converts internal and private members to public and adds [EditorBrowsable(EditorBrowsableState.Advanced)].
 
 
 ## This is an add-in for [Fody](https://github.com/Fody/Fody/) 
 
-![Icon](https://raw.github.com/Fody/Publicize/master/package_icon.png)
+![Icon](https://raw.githubusercontent.com/Fody/Publicize/master/package_icon.png)
 
 Converts non-public members to public hidden members
 
