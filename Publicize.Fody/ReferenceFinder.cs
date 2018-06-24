@@ -8,11 +8,9 @@ public partial class ModuleWeaver
     public TypeDefinition EditorBrowsableStateType;
     public int AdvancedStateConstant;
 
-
     public override IEnumerable<string> GetAssembliesForScanning()
     {
-        yield return "System";
-        yield return "System.Runtime";
+        return Enumerable.Empty<string>();
     }
 
     public void FindSystemTypes()

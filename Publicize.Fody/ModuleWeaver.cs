@@ -1,6 +1,6 @@
 ﻿using Fody;
 
-public partial class ModuleWeaver:BaseModuleWeaver
+public partial class ModuleWeaver : BaseModuleWeaver
 {
     public override void Execute()
     {
