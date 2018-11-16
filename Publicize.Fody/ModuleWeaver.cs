@@ -13,4 +13,5 @@ public partial class ModuleWeaver : BaseModuleWeaver
     }
 
     public override bool ShouldCleanReference => true;
+    public bool IncludeCompilerGenerated => Config?.Attribute("IncludeCompilerGenerated")?.Value.ToLower() == "true";
 }
