@@ -37,7 +37,7 @@ Add `<Publicize/>` to [FodyWeavers.xml](https://github.com/Fody/Fody#add-fodywea
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <Weavers>
-  <Publicize/>
+  <Publicize IncludeCompilerGenerated="true" />
 </Weavers>
 ```
 
