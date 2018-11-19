@@ -8,7 +8,7 @@ class ClassWithNested
     }
 
     [CompilerGenerated]
-    private sealed class NestedCompilerGenerated { }
+    private sealed class NestedCompilerGeneratedClass { }
 }
 
 [EditorBrowsable(EditorBrowsableState.Advanced)]
