@@ -37,7 +37,15 @@ Add `<Publicize/>` to [FodyWeavers.xml](https://github.com/Fody/Fody#add-fodywea
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <Weavers>
-  <Publicize/>
+  <Publicize />
+</Weavers>
+```
+
+In order to mark public compiler generated types such as, closure objects generated from lambda expressions. Add the `IncludeCompilerGenerated` attribute to the `Publicize` config element.
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<Weavers>
+  <Publicize IncludeCompilerGenerated="true" />
 </Weavers>
 ```
 

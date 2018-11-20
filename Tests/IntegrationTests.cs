@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Xml.Linq;
 using Fody;
 using Xunit;
 #pragma warning disable 618
@@ -12,7 +13,7 @@ public class IntegrationTests
     public IntegrationTests()
     {
         var weavingTask = new ModuleWeaver();
-
+        weavingTask.Config = XElement.Parse(@"<Publicize IncludeCompilerGenerated=""true"" />");
         testResult = weavingTask.ExecuteTestRun(
             assemblyPath: "AssemblyToProcess.dll");
     }
@@ -75,6 +76,15 @@ public class IntegrationTests
         Assert.True(type.ContainsHideAttribute());
 
         ValidateMembers(type);
+    }
+
+    [Fact]
+    public void NestedCompilerGeneratedClass()
+    {
+        var type = (Type)testResult.GetInstance("ClassWithNested+NestedCompilerGeneratedClass")
+            .GetType();
+        Assert.True(type.ContainsHideAttribute());
+        Assert.True(type.IsNestedPublic);
     }
 
     [Fact]

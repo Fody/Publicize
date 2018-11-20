@@ -7,11 +7,11 @@ public partial class ModuleWeaver
 {
     public void ProcessType(TypeDefinition typeDefinition)
     {
-        if (IsCompilerGenerated(typeDefinition.CustomAttributes))
+        if (!IncludeCompilerGenerated && IsCompilerGenerated(typeDefinition.CustomAttributes))
         {
             return;
         }
-        if (typeDefinition.IsNotPublic)
+        if (typeDefinition.IsNotPublic || (!typeDefinition.IsPublic))
         {
             if (typeDefinition.IsNested)
             {
@@ -40,7 +40,7 @@ public partial class ModuleWeaver
 
     void ProcessField(FieldDefinition field)
     {
-        if (IsCompilerGenerated(field.CustomAttributes))
+        if (!IncludeCompilerGenerated && IsCompilerGenerated(field.CustomAttributes))
         {
             return;
         }
