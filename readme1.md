@@ -4,18 +4,16 @@
 Converts internal and private members to public and adds [EditorBrowsable(EditorBrowsableState.Advanced)].
 
 
-## This is an add-in for [Fody](https://github.com/Fody/Fody/) 
+## This is an add-in for [Fody](https://github.com/Fody/Home/)
 
 ![Icon](https://raw.githubusercontent.com/Fody/Publicize/master/package_icon.png)
 
 Converts non-public members to public hidden members
 
-[Introduction to Fody](http://github.com/Fody/Fody/wiki/SampleUsage)
-
 
 ## Usage
 
-See also [Fody usage](https://github.com/Fody/Fody#usage).
+See also [Fody usage](https://github.com/Fody/Home/blob/master/pages/usage.md).
 
 
 ### NuGet installation
@@ -32,7 +30,7 @@ The `Install-Package Fody` is required since NuGet always defaults to the oldest
 
 ### Add to FodyWeavers.xml
 
-Add `<Publicize/>` to [FodyWeavers.xml](https://github.com/Fody/Fody#add-fodyweaversxml)
+Add `<Publicize/>` to [FodyWeavers.xml](https://github.com/Fody/Home/blob/master/pages/usage.md#add-fodyweaversxml)
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
