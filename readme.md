@@ -33,7 +33,6 @@ The `Install-Package Fody` is required since NuGet always defaults to the oldest
 Add `<Publicize/>` to [FodyWeavers.xml](https://github.com/Fody/Home/blob/master/pages/usage.md#add-fodyweaversxml)
 
 ```xml
-<?xml version="1.0" encoding="utf-8" ?>
 <Weavers>
   <Publicize />
 </Weavers>
@@ -41,7 +40,6 @@ Add `<Publicize/>` to [FodyWeavers.xml](https://github.com/Fody/Home/blob/master
 
 In order to mark public compiler generated types such as, closure objects generated from lambda expressions. Add the `IncludeCompilerGenerated` attribute to the `Publicize` config element.
 ```xml
-<?xml version="1.0" encoding="utf-8" ?>
 <Weavers>
   <Publicize IncludeCompilerGenerated="true" />
 </Weavers>
