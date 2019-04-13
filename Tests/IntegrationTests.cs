@@ -4,13 +4,15 @@ using System.Linq;
 using System.Xml.Linq;
 using Fody;
 using Xunit;
-#pragma warning disable 618
+using Xunit.Abstractions;
 
-public class IntegrationTests
+public class IntegrationTests :
+    XunitLoggingBase
 {
     TestResult testResult;
 
-    public IntegrationTests()
+    public IntegrationTests(ITestOutputHelper output) :
+        base(output)
     {
         var weavingTask = new ModuleWeaver();
         weavingTask.Config = XElement.Parse(@"<Publicize IncludeCompilerGenerated=""true"" />");
