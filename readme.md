@@ -48,4 +48,4 @@ In order to mark public compiler generated types such as, closure objects genera
 
 ## Icon
 
-<a href="http://thenounproject.com/noun/hide/#icon-No8013" target="_blank">Hide</a> designed by <a href="http://thenounproject.com/Luis" target="_blank">Luis Prado</a> from The Noun Project
+[Hide](https://thenounproject.com/noun/hide/#icon-No8013) designed by [Luis Prado](https://thenounproject.com/Luis) from [The Noun Project](https://thenounproject.com).
