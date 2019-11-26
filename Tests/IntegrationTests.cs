@@ -3,21 +3,23 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml.Linq;
 using Fody;
+using VerifyXunit;
 using Xunit;
 using Xunit.Abstractions;
 
 public class IntegrationTests :
-    XunitApprovalBase
+    VerifyBase
 {
     TestResult testResult;
 
     public IntegrationTests(ITestOutputHelper output) :
         base(output)
     {
-        var weavingTask = new ModuleWeaver();
-        weavingTask.Config = XElement.Parse(@"<Publicize IncludeCompilerGenerated=""true"" />");
-        testResult = weavingTask.ExecuteTestRun(
-            assemblyPath: "AssemblyToProcess.dll");
+        var weavingTask = new ModuleWeaver
+        {
+            Config = XElement.Parse(@"<Publicize IncludeCompilerGenerated=""true"" />")
+        };
+        testResult = weavingTask.ExecuteTestRun("AssemblyToProcess.dll");
     }
 
     [Fact]
