@@ -1,14 +1,14 @@
+# <img src="/package_icon.png" height="30px"> Publicize.Fody
+
 [![Chat on Gitter](https://img.shields.io/gitter/room/fody/fody.svg)](https://gitter.im/Fody/Fody)
 [![NuGet Status](https://img.shields.io/nuget/v/Publicize.Fody.svg)](https://www.nuget.org/packages/Publicize.Fody/)
 
 Converts internal and private members to public and adds [EditorBrowsable(EditorBrowsableState.Advanced)].
 
 
-## This is an add-in for [Fody](https://github.com/Fody/Home/)
+### This is an add-in for [Fody](https://github.com/Fody/Home/)
 
-![Icon](https://raw.githubusercontent.com/Fody/Publicize/master/package_icon.png)
-
-Converts non-public members to public hidden members
+**It is expected that all developers using Fody either [become a Patron on OpenCollective](https://opencollective.com/fody/), or have a [Tidelift Subscription](https://tidelift.com/subscription/pkg/nuget-fody?utm_source=nuget-fody&utm_medium=referral&utm_campaign=enterprise).**
 
 
 ## Usage
