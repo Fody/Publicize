@@ -3,17 +3,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml.Linq;
 using Fody;
-using VerifyXunit;
 using Xunit;
-using Xunit.Abstractions;
 
-public class IntegrationTests :
-    VerifyBase
+public class IntegrationTests
 {
     TestResult testResult;
 
-    public IntegrationTests(ITestOutputHelper output) :
-        base(output)
+    public IntegrationTests()
     {
         var weavingTask = new ModuleWeaver
         {
