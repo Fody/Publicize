@@ -7,4 +7,4 @@ build_script:
 
     dotnet test --configuration Release --no-build --no-restore
 artifacts:
-- path: nugets\**\*.nupkg
+- path: nugets\*.nupkg
