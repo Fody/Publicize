@@ -11,7 +11,8 @@ public partial class ModuleWeaver
         {
             return;
         }
-        if (typeDefinition.IsNotPublic || (!typeDefinition.IsPublic))
+
+        if (typeDefinition.IsNotPublic || !typeDefinition.IsPublic)
         {
             if (typeDefinition.IsNested)
             {
@@ -21,8 +22,10 @@ public partial class ModuleWeaver
             {
                 typeDefinition.IsPublic = true;
             }
+
             AddEditorBrowsableAttribute(typeDefinition.CustomAttributes);
         }
+
         if (typeDefinition.IsInterface)
         {
             return;
@@ -32,6 +35,7 @@ public partial class ModuleWeaver
         {
             ProcessMethod(method);
         }
+
         foreach (var field in typeDefinition.Fields)
         {
             ProcessField(field);
@@ -44,21 +48,25 @@ public partial class ModuleWeaver
         {
             return;
         }
+
         if (field.IsPublic)
         {
             return;
         }
+
         var requiresPublicize = false;
         if (field.IsAssembly)
         {
             field.IsAssembly = false;
             requiresPublicize = true;
         }
+
         if (field.IsPrivate)
         {
             field.IsPrivate = false;
             requiresPublicize = true;
         }
+
         if (requiresPublicize)
         {
             field.IsPublic = true;
@@ -68,7 +76,7 @@ public partial class ModuleWeaver
 
     static bool IsCompilerGenerated(IEnumerable<CustomAttribute> customAttributes)
     {
-        return customAttributes.Any(x=>x.AttributeType.Name == "CompilerGeneratedAttribute");
+        return customAttributes.Any(x => x.AttributeType.Name == "CompilerGeneratedAttribute");
     }
 
     void ProcessMethod(MethodDefinition method)
@@ -78,16 +86,19 @@ public partial class ModuleWeaver
         {
             return;
         }
+
         if (method.IsAssembly)
         {
             method.IsAssembly = false;
             requiresPublicize = true;
         }
+
         if (method.IsHideBySig)
         {
             method.IsHideBySig = false;
             requiresPublicize = true;
         }
+
         if (method.IsPrivate)
         {
             method.IsPrivate = false;
@@ -103,10 +114,11 @@ public partial class ModuleWeaver
 
     void AddEditorBrowsableAttribute(Collection<CustomAttribute> customAttributes)
     {
-        if (customAttributes.Any(x=>x.AttributeType.Name == "EditorBrowsableAttribute"))
+        if (customAttributes.Any(x => x.AttributeType.Name == "EditorBrowsableAttribute"))
         {
             return;
         }
+
         var customAttribute = new CustomAttribute(EditorBrowsableConstructor);
         customAttribute.ConstructorArguments.Add(new CustomAttributeArgument(EditorBrowsableStateType, AdvancedStateConstant));
         customAttributes.Add(customAttribute);
