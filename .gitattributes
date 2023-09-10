@@ -21,3 +21,6 @@
 *.snk binary
 *.pdb binary
 *.svg binary
+
+.editorconfig text eol=lf working-tree-encoding=UTF-8
+Shared.sln.DotSettings text eol=lf working-tree-encoding=UTF-8
