@@ -104,11 +104,11 @@ public class IntegrationTests
             Assert.True(constructorInfo.IsPublic);
         }
 
-        var publicConstructor = constructors.First(x => x.GetParameters().Any(y => y.Name == "public"));
+        var publicConstructor = constructors.First(_ => _.GetParameters().Any(y => y.Name == "public"));
         Assert.False(publicConstructor.ContainsHideAttribute());
-        var internalConstructor = constructors.First(x => x.GetParameters().Any(y => y.Name == "internal"));
+        var internalConstructor = constructors.First(_ => _.GetParameters().Any(y => y.Name == "internal"));
         Assert.True(internalConstructor.ContainsHideAttribute());
-        var privateConstructor = constructors.First(x => x.GetParameters().Any(y => y.Name == "private"));
+        var privateConstructor = constructors.First(_ => _.GetParameters().Any(y => y.Name == "private"));
         Assert.True(privateConstructor.ContainsHideAttribute());
 
         var publicProperty = type.GetProperty("PublicProperty");

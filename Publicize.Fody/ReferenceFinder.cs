@@ -18,7 +18,7 @@ public partial class ModuleWeaver
         var editorBrowsableAttribute = FindTypeDefinition("System.ComponentModel.EditorBrowsableAttribute");
         EditorBrowsableStateType = FindTypeDefinition("System.ComponentModel.EditorBrowsableState");
         EditorBrowsableConstructor = ModuleDefinition.ImportReference(editorBrowsableAttribute.Methods.First(IsDesiredConstructor));
-        var fieldDefinition = EditorBrowsableStateType.Fields.First(x => x.Name == "Advanced");
+        var fieldDefinition = EditorBrowsableStateType.Fields.First(_ => _.Name == "Advanced");
         AdvancedStateConstant = (int)fieldDefinition.Constant;
     }
 

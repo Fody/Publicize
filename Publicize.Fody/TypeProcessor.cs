@@ -76,7 +76,7 @@ public partial class ModuleWeaver
 
     static bool IsCompilerGenerated(IEnumerable<CustomAttribute> customAttributes)
     {
-        return customAttributes.Any(x => x.AttributeType.Name == "CompilerGeneratedAttribute");
+        return customAttributes.Any(_ => _.AttributeType.Name == "CompilerGeneratedAttribute");
     }
 
     void ProcessMethod(MethodDefinition method)
@@ -114,7 +114,7 @@ public partial class ModuleWeaver
 
     void AddEditorBrowsableAttribute(Collection<CustomAttribute> customAttributes)
     {
-        if (customAttributes.Any(x => x.AttributeType.Name == "EditorBrowsableAttribute"))
+        if (customAttributes.Any(_ => _.AttributeType.Name == "EditorBrowsableAttribute"))
         {
             return;
         }
