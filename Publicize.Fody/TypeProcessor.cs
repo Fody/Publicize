@@ -112,15 +112,15 @@ public partial class ModuleWeaver
         }
     }
 
-    void AddEditorBrowsableAttribute(Collection<CustomAttribute> customAttributes)
+    void AddEditorBrowsableAttribute(Collection<CustomAttribute> attributes)
     {
-        if (customAttributes.Any(_ => _.AttributeType.Name == "EditorBrowsableAttribute"))
+        if (attributes.Any(_ => _.AttributeType.Name == "EditorBrowsableAttribute"))
         {
             return;
         }
 
         var customAttribute = new CustomAttribute(EditorBrowsableConstructor);
-        customAttribute.ConstructorArguments.Add(new CustomAttributeArgument(EditorBrowsableStateType, AdvancedStateConstant));
-        customAttributes.Add(customAttribute);
+        customAttribute.ConstructorArguments.Add(new(EditorBrowsableStateType, AdvancedStateConstant));
+        attributes.Add(customAttribute);
     }
 }
