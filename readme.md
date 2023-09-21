@@ -5,6 +5,8 @@
 
 Converts internal and private members to public and adds [EditorBrowsable(EditorBrowsableState.Advanced)].
 
+**See [Milestones](../../milestones?state=closed) for release notes.**
+
 
 ### This is an add-in for [Fody](https://github.com/Fody/Home/)
 
