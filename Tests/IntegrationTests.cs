@@ -13,7 +13,7 @@ public class IntegrationTests
     {
         var weavingTask = new ModuleWeaver
         {
-            Config = XElement.Parse(@"<Publicize IncludeCompilerGenerated=""true"" />")
+            Config = XElement.Parse("""<Publicize IncludeCompilerGenerated="true" />""")
         };
         testResult = weavingTask.ExecuteTestRun("AssemblyToProcess.dll");
     }

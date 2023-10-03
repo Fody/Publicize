@@ -3,15 +3,11 @@ using System.Runtime.CompilerServices;
 
 class ClassWithNested
 {
-    public class NestedClass
-    {
-    }
+    public class NestedClass;
 
     [CompilerGenerated]
-    private sealed class NestedCompilerGeneratedClass { }
+    private sealed class NestedCompilerGeneratedClass;
 }
 
 [EditorBrowsable(EditorBrowsableState.Advanced)]
-class ClassWithEditorBrowsableAttribute
-{
-}
+class ClassWithEditorBrowsableAttribute;
