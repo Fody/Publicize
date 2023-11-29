@@ -4,8 +4,5 @@ using System.Reflection;
 
 public static class AttributeChecker
 {
-    public static bool ContainsHideAttribute(this ICustomAttributeProvider provider)
-    {
-        return provider.GetCustomAttributes(false).OfType<EditorBrowsableAttribute>().Any();
-    }
+    public static bool ContainsHideAttribute(this ICustomAttributeProvider provider) => provider.GetCustomAttributes(false).OfType<EditorBrowsableAttribute>().Any();
 }
