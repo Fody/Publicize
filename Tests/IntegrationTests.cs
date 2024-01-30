@@ -11,11 +11,11 @@ public class IntegrationTests
 
     public IntegrationTests()
     {
-        var weavingTask = new ModuleWeaver
+        var weaver = new ModuleWeaver
         {
             Config = XElement.Parse("""<Publicize IncludeCompilerGenerated="true" />""")
         };
-        testResult = weavingTask.ExecuteTestRun("AssemblyToProcess.dll");
+        testResult = weaver.ExecuteTestRun("AssemblyToProcess.dll");
     }
 
     [Fact]
