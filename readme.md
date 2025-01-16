@@ -1,6 +1,5 @@
 # <img src="/package_icon.png" height="30px"> Publicize.Fody
 
-[![Chat on Gitter](https://img.shields.io/gitter/room/fody/fody.svg)](https://gitter.im/Fody/Fody)
 [![NuGet Status](https://img.shields.io/nuget/v/Publicize.Fody.svg)](https://www.nuget.org/packages/Publicize.Fody/)
 
 Converts internal and private members to public and adds [EditorBrowsable(EditorBrowsableState.Advanced)].
